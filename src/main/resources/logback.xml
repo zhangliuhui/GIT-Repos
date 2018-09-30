@@ -115,6 +115,28 @@
             </timeBasedFileNamingAndTriggeringPolicy>
         </rollingPolicy>
     </appender>
+    <appender name="DB" class="ch.qos.logback.classic.db.DBAppender">
+        <connectionSource class="ch.qos.logback.core.db.DataSourceConnectionSource">
+            <!-- <dataSource class="com.alibaba.druid.pool.DruidDataSource">
+                <driverClassName>com.mysql.cj.jdbc.Driver</driverClassName>
+                <url>jdbc:mysql://localhost:3306/funny?serverTimezone=Asia/Shanghai&amp;useUnicode=true&amp;characterEncoding=utf8&amp;characterSetResults=utf8&amp;useSSL=false&amp;verifyServerCertificate=false&amp;autoReconnct=true&amp;autoReconnectForPools=true&amp;allowMultiQueries=true</url>  
+                <username>root</username>
+                <password>root</password>
+            </dataSource> -->
+            <dataSource class="com.mchange.v2.c3p0.ComboPooledDataSource">
+                <driverClass>com.mysql.cj.jdbc.Driver</driverClass>
+                <jdbcUrl>jdbc:mysql://localhost:3306/funny?serverTimezone=Asia/Shanghai&amp;useUnicode=true&amp;characterEncoding=utf8&amp;characterSetResults=utf8&amp;useSSL=false&amp;verifyServerCertificate=false&amp;autoReconnct=true&amp;autoReconnectForPools=true&amp;allowMultiQueries=true</jdbcUrl>  
+                <user>root</user>
+                <password>root</password>
+            </dataSource>
+            <!-- <dataSource class="org.apache.commons.dbcp.BasicDataSource">  
+                <driverClassName>com.mysql.jdbc.Driver</driverClassName>  
+                <url>jdbc:mysql://localhost:3306/funny?serverTimezone=Asia/Shanghai&amp;useUnicode=true&amp;characterEncoding=utf8&amp;characterSetResults=utf8&amp;useSSL=false&amp;verifyServerCertificate=false&amp;autoReconnct=true&amp;autoReconnectForPools=true&amp;allowMultiQueries=true</url>  
+                <username>root</username>  
+                <password>root</password>  
+            </dataSource> -->
+        </connectionSource>
+    </appender>
     
     <!--myibatis log configure-->
 	<logger name="com.apache.ibatis" level="TRACE"/>
@@ -123,12 +145,12 @@
 	<logger name="java.sql.PreparedStatement" level="DEBUG"/>
     
     <!-- Logger 根目录 -->
-    <root level="STDOUT">
+    <root level="DEBUG">
         <appender-ref ref="STDOUT" />
-        <appender-ref ref="DEBUG" />  
-        <appender-ref ref="ERROR" />
-        <appender-ref ref="WARN" />
-        <appender-ref ref="INFO" /> 
         <appender-ref ref="TRACE" />
+        <appender-ref ref="DEBUG" />
+        <appender-ref ref="INFO" />
+        <appender-ref ref="WARN" />
+        <appender-ref ref="ERROR" />
     </root>
 </configuration>
