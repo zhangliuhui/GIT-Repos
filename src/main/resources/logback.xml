@@ -10,15 +10,13 @@
     <!-- 控制台打印 -->
     <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
         <encoder charset="utf-8">
-            <pattern>%d{${DATETIME}} [%-5level] [%thread] %logger{36}:%line - %m%n
-            </pattern>
+            <pattern>%d{${DATETIME}} [%-5level] [%thread] %logger{36}:%line - %m%n</pattern>
         </encoder>
     </appender>
     <!-- ERROR 输入到文件，按日期和文件大小 -->
     <appender name="ERROR" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <encoder charset="utf-8">
-            <pattern>%d{${DATETIME}} [%-5level] [%thread] %logger{36}:%line - %m%n
-            </pattern>
+            <pattern>%d{${DATETIME}} [%-5level] [%thread] %logger{36}:%line - %m%n</pattern>
         </encoder>
         <filter class="ch.qos.logback.classic.filter.LevelFilter">
             <level>ERROR</level>
@@ -38,8 +36,7 @@
     <!-- WARN 输入到文件，按日期和文件大小 -->
     <appender name="WARN" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <encoder charset="utf-8">
-            <pattern>%d{${DATETIME}} [%-5level] [%thread] %logger{36}:%line - %m%n
-            </pattern>
+            <pattern>%d{${DATETIME}} [%-5level] [%thread] %logger{36}:%line - %m%n</pattern>
         </encoder>
         <filter class="ch.qos.logback.classic.filter.LevelFilter">
             <level>WARN</level>
@@ -58,8 +55,7 @@
     <!-- INFO 输入到文件，按日期和文件大小 -->
     <appender name="INFO" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <encoder charset="utf-8">
-            <pattern>%d{${DATETIME}} [%-5level] [%thread] %logger{36}:%line - %m%n
-            </pattern>
+            <pattern>%d{${DATETIME}} [%-5level] [%thread] %logger{36}:%line - %m%n</pattern>
         </encoder>
         <filter class="ch.qos.logback.classic.filter.LevelFilter">
             <level>INFO</level>
@@ -77,8 +73,7 @@
     <!-- DEBUG 输入到文件，按日期和文件大小 -->
     <appender name="DEBUG" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <encoder charset="utf-8">
-            <pattern>%d{${DATETIME}} [%-5level] [%thread] %logger{36}:%line - %m%n
-            </pattern>
+            <pattern>%d{${DATETIME}} [%-5level] [%thread] %logger{36}:%line - %m%n</pattern>
         </encoder>
         <filter class="ch.qos.logback.classic.filter.LevelFilter">
             <level>DEBUG</level>
@@ -97,8 +92,7 @@
     <!-- TRACE 输入到文件，按日期和文件大小 -->
     <appender name="TRACE" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <encoder charset="utf-8">
-            <pattern>%d{${DATETIME}} [%-5level] [%thread] %logger{36}:%line - %m%n
-            </pattern>
+            <pattern>%d{${DATETIME}} [%-5level] [%thread] %logger{36}:%line - %m%n</pattern>
         </encoder>
         <filter class="ch.qos.logback.classic.filter.LevelFilter">
             <level>TRACE</level>
@@ -115,6 +109,18 @@
             </timeBasedFileNamingAndTriggeringPolicy>
         </rollingPolicy>
     </appender>
+	<appender name="DB" class="ch.qos.logback.classic.db.DBAppender">
+		<!--日志异步到数据库 --> 
+        <connectionSource class="ch.qos.logback.core.db.DataSourceConnectionSource">
+			<!--连接池 --> 
+           	<dataSource class="com.mchange.v2.c3p0.ComboPooledDataSource">
+              	<driverClass>com.mysql.cj.jdbc.Driver</driverClass>
+              	<jdbcUrl>jdbc:mysql://127.0.0.1:3306/funny?useUnicode=true&amp;allowMultiQueries=true&amp;useSSL=false&amp;serverTimezone=Asia/Shanghai&amp;characterEncoding=UTF-8</jdbcUrl>
+              	<user>root</user>
+              	<password>root</password>
+            </dataSource>
+        </connectionSource>
+	</appender>
     
     <!--myibatis log configure-->
 	<logger name="com.apache.ibatis" level="TRACE"/>
@@ -123,12 +129,12 @@
 	<logger name="java.sql.PreparedStatement" level="DEBUG"/>
     
     <!-- Logger 根目录 -->
-    <root level="STDOUT">
+    <root level="INFO">
         <appender-ref ref="STDOUT" />
-        <appender-ref ref="DEBUG" />  
-        <appender-ref ref="ERROR" />
-        <appender-ref ref="WARN" />
-        <appender-ref ref="INFO" /> 
-        <appender-ref ref="TRACE" />
+        <!-- <appender-ref ref="DEBUG" /> -->
+        <!-- <appender-ref ref="ERROR" /> -->
+        <!-- <appender-ref ref="WARN" /> -->
+        <!-- <appender-ref ref="INFO" /> -->
+        <!-- <appender-ref ref="TRACE" /> -->
     </root>
 </configuration>
