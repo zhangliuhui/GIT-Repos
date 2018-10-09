@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="shiro" uri="http://shiro.apache.org/tags" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -36,35 +37,31 @@ html,body{
 	position: relative;
 	text-align: center;
 }
-.left{
-	margin: 0;
-	border: 0;
-	width: 60%;
-	height: 100%;
-	display: inline-flex;
-	background-color: yellow;
-}
 .login{
 	margin: 0;
-	border: 0;
-	background-color: green;
-	display: inline-flex;
+	border: 1px;
+	background-color: white;
+	border-radius: 5px;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	left: 60%;
 	width: 30%;
-	height: 100%;
+	padding: 5% 0;
 	text-align: center;
+	position: relative;
+	line-height: 30px;
 }
 </style>
 </head>
 <body>
-<div class="header">1</div>
+<div class="header"></div>
 <div class="body">
-	<div class="left">1</div>
 	<div class="login">
-		<form action="${pageContext.request.contextPath }/toLogin" method="post">  
+		<form action="${pageContext.request.contextPath }/toLogin" method="post">
 		    <label for="username">账&emsp;号：</label><input type="text" id="username" name="username" value="${username}"/><br/>
 		    <label for="password">密&emsp;码：</label><input type="password" id="password" name="password" value="${password}"><br/>
 		    <label for="password">验证码：</label><input type="password" id="password" name="password" value="${password}"><br/>
-		    <input type="checkbox" id="rememberMe" name="rememberMe" value="${rememberMe}"><label for="password">记住我</label><br/>
+		    <input type="checkbox" name="rememberMe" checked="checked"><label for="rememberMe">记住我</label><br/>
 		    <input type="submit" value="login"/><font color="red">${errorMsg}</font>  
 		</form>
 	</div>

@@ -20,10 +20,8 @@
 	</context:component-scan>
 	<import resource="applicationContext-mybatis.xml"/>
 	<import resource="applicationContext-shiro.xml"/>
-	<bean id="propertyConfigure" 
-  		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer"> 
-		<property name="locations">
-			<value>classpath:jdbc.properties</value>
-		</property> 
+	<bean
+  		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="location" value="classpath:jdbc.properties"></property>
 	</bean>
 </beans>

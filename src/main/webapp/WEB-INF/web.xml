@@ -4,16 +4,12 @@
     xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
     version="3.0">
   <display-name>funny</display-name>
-  <context-param>
-  	<param-name>logbackConfigLocation</param-name>
-  	<param-value>classpath*:logback.xml</param-value>
-  </context-param>
   <listener>
     <listener-class>ch.qos.logback.ext.spring.web.LogbackConfigListener</listener-class>
   </listener>
   <context-param>
-  	<param-name>contextConfigLocation</param-name>
-  	<param-value>classpath*:applicationContext.xml</param-value>
+  	<param-name>logbackConfigLocation</param-name>
+  	<param-value>classpath:logback.xml</param-value>
   </context-param>
   <listener>
     <listener-class>org.springframework.web.util.IntrospectorCleanupListener</listener-class>
@@ -21,6 +17,10 @@
   <listener>
     <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
   </listener>
+  <context-param>
+  	<param-name>contextConfigLocation</param-name>
+  	<param-value>classpath*:applicationContext.xml</param-value>
+  </context-param>
   
   <!-- The filter-name matches name of a 'shiroFilter' bean inside applicationContext.xml -->
   <filter>
