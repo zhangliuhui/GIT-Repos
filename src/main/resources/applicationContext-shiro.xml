@@ -72,8 +72,8 @@
 		<property name="credentialsMatcher" ref="hashedCredentialsMatcher"/>
 	</bean>
 	<bean id="hashedCredentialsMatcher" class="org.apache.shiro.authc.credential.HashedCredentialsMatcher">
-		<!-- <property name="hashAlgorithmName" value="AES"></property>
-		<property name="hashIterations" value="1024"></property> -->
+		<!-- <property name="hashAlgorithmName" value="MD5"></property>
+		<property name="hashIterations" value="5"></property> -->
 		<property name="storedCredentialsHexEncoded" value="false"></property>
     </bean>
 
@@ -88,13 +88,6 @@
 	<!-- 会话ID生成器 -->
     <bean id="sessionIdGenerator" class="org.apache.shiro.session.mgt.eis.JavaUuidSessionIdGenerator"/>
     
-	<!-- sessionIdCookie：maxAge=-1表示浏览器关闭时失效此Cookie 使用sid存储sessionid -->
-	<bean id="sessionIdCookie"
-		class="org.apache.shiro.web.servlet.SimpleCookie">
-		<constructor-arg name="name" value="shirosid" />
-		<property name="httpOnly" value="true" />
-		<property name="maxAge" value="-1" />
-	</bean>
 
 	<!-- 会话DAO -->
     <bean id="sessionDAO" class="org.apache.shiro.session.mgt.eis.EnterpriseCacheSessionDAO">
@@ -108,12 +101,12 @@
         <property name="sessionManager" ref="sessionManager"/>
     </bean>
 
-	<!-- 用户信息记住我功能的相关配置 -->
-	<bean id="rememberMeCookie"
+	<!-- maxAge=-1表示浏览器关闭时失效此Cookie 使用sid存储sessionid-->
+	<bean id="sessionIdCookie"
 		class="org.apache.shiro.web.servlet.SimpleCookie">
-		<constructor-arg value="rememberMe" />
+		<constructor-arg name="name" value="cookie.jsessionid" />
 		<property name="httpOnly" value="true" />
-		<!-- 配置存储rememberMe Cookie的domain为 一级域名 这里如果配置需要和Session回话一致更好。 -->
+		<!-- 配置存储rememberMe Cookie的domain为 一级域名 这里如果配置需要和Session会话一致更好。 -->
 		<property name="maxAge" value="604800" /><!-- 记住我==保留Cookie有效7天 -->
 	</bean>
 
@@ -123,7 +116,7 @@
 		<!-- rememberMe cookie加密的密钥 建议每个项目都不一样 默认AES算法 密钥长度（128 256 512 位） -->
 		<property name="cipherKey"
 			value="#{T(org.apache.shiro.codec.Base64).decode('4AvVhmFLUs0KTA3Kprsdag==')}" />
-		<property name="cookie" ref="rememberMeCookie" />
+		<property name="cookie" ref="sessionIdCookie" />
 	</bean>
 
 	<!-- 记住我功能设置session的Filter -->
@@ -131,8 +124,9 @@
 
 	<!-- rememberMeParam请求参数是 boolean 类型，true 表示 rememberMe -->
 	<!-- shiro规定记住我功能最多得user级别的，不能到authc级别.所以如果使用authc，需打开此配置或重写实现rememberMe的过滤器 -->
-	<!-- <bean id="formAuthenticationFilter" class="org.apache.shiro.web.filter.authc.FormAuthenticationFilter"> 
-		<property name="rememberMeParam" value="rememberMe"/> </bean> -->
+	<bean id="formAuthenticationFilter" class="org.apache.shiro.web.filter.authc.FormAuthenticationFilter"> 
+		<property name="rememberMeParam" value="rememberMe"/>
+	</bean>
 
 	<bean id="kickoutSessionControlFilter"
 		class="org.lucas.funny.console.filter.KickoutSessionControlFilter">

@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE xml PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/2002/xmlspec/dtd/2.10/xmlspec.dtd">
 <configuration debug="false" scan="true" scanPeriod="30 second">
 
     <property name="PROJECT" value="funny" /> 
-    <property name="ROOT" value="logs/${PROJECT}/" />
+    <property name="ROOT" value="/logs/${PROJECT}/" />
     <property name="FILESIZE" value="50MB" />
     <property name="MAXHISTORY" value="100" />
     <timestamp key="DATETIME" datePattern="yyyy-MM-dd HH:mm:ss.SSS" />
@@ -116,19 +115,19 @@
                 <url>jdbc:mysql://localhost:3306/funny?serverTimezone=Asia/Shanghai&amp;useUnicode=true&amp;characterEncoding=utf8&amp;characterSetResults=utf8&amp;useSSL=false&amp;verifyServerCertificate=false&amp;autoReconnct=true&amp;autoReconnectForPools=true&amp;allowMultiQueries=true</url>  
                 <username>root</username>
                 <password>root</password>
-            </dataSource> -->
+            </dataSource>
             <dataSource class="com.mchange.v2.c3p0.ComboPooledDataSource">
                 <driverClass>com.mysql.cj.jdbc.Driver</driverClass>
                 <jdbcUrl>jdbc:mysql://localhost:3306/funny?serverTimezone=Asia/Shanghai&amp;useUnicode=true&amp;characterEncoding=utf8&amp;characterSetResults=utf8&amp;useSSL=false&amp;verifyServerCertificate=false&amp;autoReconnct=true&amp;autoReconnectForPools=true&amp;allowMultiQueries=true</jdbcUrl>  
                 <user>root</user>
                 <password>root</password>
-            </dataSource>
-            <!-- <dataSource class="org.apache.commons.dbcp.BasicDataSource">  
-                <driverClassName>com.mysql.jdbc.Driver</driverClassName>  
+            </dataSource> -->
+            <dataSource class="org.apache.commons.dbcp2.BasicDataSource">  
+                <driverClassName>com.mysql.cj.jdbc.Driver</driverClassName> 
                 <url>jdbc:mysql://localhost:3306/funny?serverTimezone=Asia/Shanghai&amp;useUnicode=true&amp;characterEncoding=utf8&amp;characterSetResults=utf8&amp;useSSL=false&amp;verifyServerCertificate=false&amp;autoReconnct=true&amp;autoReconnectForPools=true&amp;allowMultiQueries=true</url>  
                 <username>root</username>  
                 <password>root</password>  
-            </dataSource> -->
+            </dataSource>
         </connectionSource>
     </appender>
     
