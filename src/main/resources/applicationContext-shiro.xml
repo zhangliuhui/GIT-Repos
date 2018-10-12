@@ -39,18 +39,19 @@
 		</property>
 	</bean>
 
-	<bean id="sessionManager" class="org.apache.shiro.web.session.mgt.DefaultWebSessionManager"> 
+	<!-- 会话管理器 -->
+    <bean id="sessionManager" class="org.apache.shiro.web.session.mgt.DefaultWebSessionManager">
         <!-- 会话超时时间，单位：毫秒  20m=1200000ms, 30m=1800000ms, 60m=3600000ms-->
         <property name="globalSessionTimeout" value="1800000"/>
-        <property name="sessionValidationInterval" value="1200000"/>
+        <property name="deleteInvalidSessions" value="true"/>
+        <property name="sessionValidationSchedulerEnabled" value="true"/>
+        <property name="sessionValidationScheduler" ref="sessionValidationScheduler"/>
         <!-- 去掉 JSESSIONID -->
         <property name="sessionIdUrlRewritingEnabled" value="false" />
-        <property name="sessionValidationSchedulerEnabled" value="true"/>
-        <!-- <property name="sessionDAO" ref="sessionDAO"/> -->
-        <property name="sessionIdCookie" ref="sessionIdCookie"/>
+        <property name="sessionDAO" ref="sessionDAO"/>
         <property name="sessionIdCookieEnabled" value="true"/>
-	</bean>
-
+        <property name="sessionIdCookie" ref="sessionIdCookie"/>
+    </bean>
 
 	<!-- Shiro生命周期处理器 -->
 	<bean id="lifecycleBeanPostProcessor"
@@ -62,13 +63,19 @@
 		class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
 		<property name="realm" ref="userRealm" />
 		<property name="rememberMeManager" ref="rememberMeManager" />
-		<property name="cacheManager" ref="cacheManager"></property>
+		<property name="cacheManager" ref="cacheManager"/>
 		<property name="sessionManager" ref="sessionManager" />
 	</bean>
 
 	<bean id="userRealm" class="org.lucas.funny.console.shiro.UserRealm">
-		<property name="cachingEnabled" value="false" />
+		<property name="cachingEnabled" value="false"/>
+		<property name="credentialsMatcher" ref="hashedCredentialsMatcher"/>
 	</bean>
+	<bean id="hashedCredentialsMatcher" class="org.apache.shiro.authc.credential.HashedCredentialsMatcher">
+		<!-- <property name="hashAlgorithmName" value="AES"></property>
+		<property name="hashIterations" value="1024"></property> -->
+		<property name="storedCredentialsHexEncoded" value="false"></property>
+    </bean>
 
 	<!-- 相当于调用SecurityUtils.setSecurityManager(securityManager) -->
 	<bean
@@ -78,13 +85,28 @@
 		<property name="arguments" ref="securityManager" />
 	</bean>
 
-	<!-- sessionIdCookie：maxAge=-1表示浏览器关闭时失效此Cookie -->
+	<!-- 会话ID生成器 -->
+    <bean id="sessionIdGenerator" class="org.apache.shiro.session.mgt.eis.JavaUuidSessionIdGenerator"/>
+    
+	<!-- sessionIdCookie：maxAge=-1表示浏览器关闭时失效此Cookie 使用sid存储sessionid -->
 	<bean id="sessionIdCookie"
 		class="org.apache.shiro.web.servlet.SimpleCookie">
-		<constructor-arg value="rememberMe" />
+		<constructor-arg name="name" value="shirosid" />
 		<property name="httpOnly" value="true" />
 		<property name="maxAge" value="-1" />
 	</bean>
+
+	<!-- 会话DAO -->
+    <bean id="sessionDAO" class="org.apache.shiro.session.mgt.eis.EnterpriseCacheSessionDAO">
+        <property name="activeSessionsCacheName" value="shiro-activeSessionCache"/>
+        <property name="sessionIdGenerator" ref="sessionIdGenerator"/>
+    </bean>
+    
+    <!-- 会话验证调度器 -->
+    <bean id="sessionValidationScheduler" class="org.apache.shiro.session.mgt.quartz.QuartzSessionValidationScheduler">
+        <property name="sessionValidationInterval" value="1200000"/>
+        <property name="sessionManager" ref="sessionManager"/>
+    </bean>
 
 	<!-- 用户信息记住我功能的相关配置 -->
 	<bean id="rememberMeCookie"
@@ -100,7 +122,7 @@
 		class="org.apache.shiro.web.mgt.CookieRememberMeManager">
 		<!-- rememberMe cookie加密的密钥 建议每个项目都不一样 默认AES算法 密钥长度（128 256 512 位） -->
 		<property name="cipherKey"
-			value="#{T(org.apache.shiro.codec.Base64).decode('3AvVhmFLUs0KTA3Kprsdag==')}" />
+			value="#{T(org.apache.shiro.codec.Base64).decode('4AvVhmFLUs0KTA3Kprsdag==')}" />
 		<property name="cookie" ref="rememberMeCookie" />
 	</bean>
 

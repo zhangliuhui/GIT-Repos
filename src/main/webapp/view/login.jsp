@@ -46,10 +46,14 @@ html,body{
 	-moz-border-radius: 5px;
 	left: 60%;
 	width: 30%;
-	padding: 5% 0;
+	padding: 3%;
 	text-align: center;
 	position: relative;
 	line-height: 30px;
+}
+tbody td input{
+	width: 100%;
+	white-space: nowrap;
 }
 </style>
 </head>
@@ -58,11 +62,34 @@ html,body{
 <div class="body">
 	<div class="login">
 		<form action="${pageContext.request.contextPath }/toLogin" method="post">
-		    <label for="username">账&emsp;号：</label><input type="text" id="username" name="username" value="${username}"/><br/>
-		    <label for="password">密&emsp;码：</label><input type="password" id="password" name="password" value="${password}"><br/>
-		    <label for="password">验证码：</label><input type="password" id="password" name="password" value="${password}"><br/>
-		    <input type="checkbox" name="rememberMe" checked="checked"><label for="rememberMe">记住我</label><br/>
-		    <input type="submit" value="login"/><font color="red">${errorMsg}</font>  
+		    <table width="100%" border="1">
+		    	<thead>
+		    		<tr>
+		    			<th colspan="2">用户登录</th>
+		    		</tr>
+		    	</thead>
+		    	<tbody>
+		    		<tr>
+		    			<td><label for="username">账&emsp;号：</label></td>
+		    			<td><input type="text" id="username" name="username" value="${username}"/></td>
+		    		</tr>
+		    		<tr>
+		    			<td><label for="password">密&emsp;码：</label></td>
+		    			<td><input type="password" id="password" name="password" value="${password}"></td>
+		    		</tr>
+		    		<tr>
+		    			<td><label for="captcha">验证码：</label></td>
+		    			<td><input type="captcha" id="captcha" name="captcha" value="${captcha}"></td>
+		    		</tr>
+		    		<tr>
+		    			<td colspan="2" align="left"><input type="checkbox" name="rememberMe" checked="checked"><label for="rememberMe">记住我</label></td>
+		    		</tr>
+		    		<tr>
+		    			<td><button type="submit">登陆</button></td>
+		    			<td><font color="red">${errorMsg}</font></td>
+		    		</tr>
+		    	</tbody>
+		    </table>
 		</form>
 	</div>
 </div>
