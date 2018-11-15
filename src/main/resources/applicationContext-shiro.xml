@@ -34,7 +34,18 @@
 				/scripts/css/**=anon
 				/images/**=anon
 				/login=anon
+				/codeImage=anon
 				/**=user,kickout
+				<!-- /admins/**=anon               # 表示该 uri 可以匿名访问
+				/admins/**=auth               # 表示该 uri 需要认证才能访问
+				/admins/**=authcBasic         # 表示该 uri 需要 httpBasic 认证
+				/admins/**=perms[user:add:*]  # 表示该 uri 需要认证用户拥有 user:add:* 权限才能访问
+				/admins/**=port[8081]         # 表示该 uri 需要使用 8081 端口
+				/admins/**=rest[user]         # 相当于 /admins/**=perms[user:method]，其中，method 表示  get、post、delete 等
+				/admins/**=roles[admin]       # 表示该 uri 需要认证用户拥有 admin 角色才能访问
+				/admins/**=ssl                # 表示该 uri 需要使用 https 协议
+				/admins/**=user               # 表示该 uri 需要认证或通过记住我认证才能访问
+				/logout=logout                # 表示注销,可以当作固定配置 -->
 			</value>
 		</property>
 	</bean>
@@ -126,6 +137,9 @@
 	<!-- shiro规定记住我功能最多得user级别的，不能到authc级别.所以如果使用authc，需打开此配置或重写实现rememberMe的过滤器 -->
 	<bean id="formAuthenticationFilter" class="org.apache.shiro.web.filter.authc.FormAuthenticationFilter"> 
 		<property name="rememberMeParam" value="rememberMe"/>
+		<property name="usernameParam" value="username"/>
+    	<property name="passwordParam" value="password"/>
+    	<property name="loginUrl" value="/login"/>
 	</bean>
 
 	<bean id="kickoutSessionControlFilter"

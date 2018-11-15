@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.lucas.funny.console.mapper.TRoleMapper">
+  <resultMap id="BaseResultMap" type="org.lucas.funny.console.model.TRoleModel">
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="rolename" jdbcType="VARCHAR" property="rolename" />
+    <result column="description" jdbcType="VARCHAR" property="description" />
+    <result column="creator" jdbcType="VARCHAR" property="creator" />
+    <result column="createtime" jdbcType="TIMESTAMP" property="createtime" />
+    <result column="updator" jdbcType="VARCHAR" property="updator" />
+    <result column="updatetime" jdbcType="TIMESTAMP" property="updatetime" />
+    <result column="status" jdbcType="BIT" property="status" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, rolename, description, creator, createtime, updator, updatetime, status
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from t_role
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <select id="selectRolesByUserid" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from t_role t,t_user_role r
+    where t.status=1 and t.id=r.roleid and r.userid = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from t_role
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="org.lucas.funny.console.model.TRoleModel">
+    <selectKey keyProperty="id" order="BEFORE" resultType="java.lang.String">
+      SELECT REPLACE(UUID(),'-','') FROM DUAL
+    </selectKey>
+    insert into t_role (id, rolename, description, 
+      creator, createtime, updator, 
+      updatetime, status)
+    values (#{id,jdbcType=VARCHAR}, #{rolename,jdbcType=VARCHAR}, #{description,jdbcType=VARCHAR}, 
+      #{creator,jdbcType=VARCHAR}, #{createtime,jdbcType=TIMESTAMP}, #{updator,jdbcType=VARCHAR}, 
+      #{updatetime,jdbcType=TIMESTAMP}, #{status,jdbcType=BIT})
+  </insert>
+  <insert id="insertSelective" parameterType="org.lucas.funny.console.model.TRoleModel">
+    <selectKey keyProperty="id" order="BEFORE" resultType="java.lang.String">
+      SELECT REPLACE(UUID(),'-','') FROM DUAL
+    </selectKey>
+    insert into t_role
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      id,
+      <if test="rolename != null">
+        rolename,
+      </if>
+      <if test="description != null">
+        description,
+      </if>
+      <if test="creator != null">
+        creator,
+      </if>
+      <if test="createtime != null">
+        createtime,
+      </if>
+      <if test="updator != null">
+        updator,
+      </if>
+      <if test="updatetime != null">
+        updatetime,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      #{id,jdbcType=VARCHAR},
+      <if test="rolename != null">
+        #{rolename,jdbcType=VARCHAR},
+      </if>
+      <if test="description != null">
+        #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="creator != null">
+        #{creator,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null">
+        #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updator != null">
+        #{updator,jdbcType=VARCHAR},
+      </if>
+      <if test="updatetime != null">
+        #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=BIT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="org.lucas.funny.console.model.TRoleModel">
+    update t_role
+    <set>
+      <if test="rolename != null">
+        rolename = #{rolename,jdbcType=VARCHAR},
+      </if>
+      <if test="description != null">
+        description = #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="creator != null">
+        creator = #{creator,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null">
+        createtime = #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updator != null">
+        updator = #{updator,jdbcType=VARCHAR},
+      </if>
+      <if test="updatetime != null">
+        updatetime = #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=BIT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="org.lucas.funny.console.model.TRoleModel">
+    update t_role
+    set rolename = #{rolename,jdbcType=VARCHAR},
+      description = #{description,jdbcType=VARCHAR},
+      creator = #{creator,jdbcType=VARCHAR},
+      createtime = #{createtime,jdbcType=TIMESTAMP},
+      updator = #{updator,jdbcType=VARCHAR},
+      updatetime = #{updatetime,jdbcType=TIMESTAMP},
+      status = #{status,jdbcType=BIT}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>
